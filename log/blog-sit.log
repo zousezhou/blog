@@ -1,0 +1,10 @@
+2020-10-14 11:21:47.771  INFO 8168 --- [restartedMain] com.zlq.blog.BlogApplication             : Starting BlogApplication on zhoulanqing-PC with PID 8168 (D:\周岚清\blog\target\classes started by zhoulanqing in D:\周岚清\blog)
+2020-10-14 11:21:47.775  INFO 8168 --- [restartedMain] com.zlq.blog.BlogApplication             : The following profiles are active: sit
+2020-10-14 11:21:50.580  WARN 8168 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-10-14 11:21:51.002  WARN 8168 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-10-14 11:21:51.208  INFO 8168 --- [restartedMain] com.zlq.blog.BlogApplication             : Started BlogApplication in 4.367 seconds (JVM running for 5.932)
+2020-10-14 11:27:46.693  INFO 5556 --- [restartedMain] com.zlq.blog.BlogApplication             : Starting BlogApplication on zhoulanqing-PC with PID 5556 (D:\周岚清\blog\target\classes started by zhoulanqing in D:\周岚清\blog)
+2020-10-14 11:27:46.697  INFO 5556 --- [restartedMain] com.zlq.blog.BlogApplication             : The following profiles are active: sit
+2020-10-14 11:27:49.687  WARN 5556 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-10-14 11:27:50.106  WARN 5556 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-10-14 11:27:50.314  INFO 5556 --- [restartedMain] com.zlq.blog.BlogApplication             : Started BlogApplication in 4.313 seconds (JVM running for 5.583)
