@@ -30,7 +30,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Blog> blogList = new ArrayList<>();
 
-    public User(Long id, String nickname, String username, String password, String email, String avater, Integer type, Date createTime, Date updateTime, List<Blog> blogList) {
+    public User() {
+
+    }
+
+    public User(Long id, String nickname, String username, String password, String email, String avater, Integer type, Date createTime, Date updateTime) {
         this.id = id;
         this.nickname = nickname;
         this.username = username;
@@ -40,7 +44,6 @@ public class User {
         this.type = type;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.blogList = blogList;
     }
 
     @Override
@@ -55,7 +58,6 @@ public class User {
                 ", type=" + type +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", blogList=" + blogList +
                 '}';
     }
 
