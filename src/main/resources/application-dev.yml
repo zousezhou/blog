@@ -1,6 +1,6 @@
 spring:
   thymeleaf:
-    model: HTML
+    mode: HTML
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
@@ -12,8 +12,10 @@ spring:
     show-sql: true
 logging:
   level:
-      root: info
-      com.zlq: debug
+    root: info
+    com.zlq: debug
+
+
 
 
 

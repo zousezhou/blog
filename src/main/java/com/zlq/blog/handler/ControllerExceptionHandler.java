@@ -10,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Create by lanqZhou on 2020.10.20
+ */
 @ControllerAdvice
 public class ControllerExceptionHandler {
 

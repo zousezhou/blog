@@ -15,6 +15,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
+/**
+ * Create by lanqZhou on 2020.10.20
+ */
 //切面注释 这两个注释是必须的
 @Aspect
 @Component
@@ -30,7 +33,7 @@ public class LogAspect {
 
     //就是被切方法之前执行的方法所用的注解
     @Before("log()")
-    public void doBefore(JoinPoint joinPoint) {//JoinPoint就是切点的数据对象 可以获取到类名方法名 参数之类的
+    public void doBefore(JoinPoint joinPoint) {//JoinPoint就是切点拦截的元数据(包，类，方法名，参数等)对象
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
 
