@@ -41,6 +41,10 @@ public class Comment {
         this.blog = blog;
     }
 
+    public Comment() {
+
+    }
+
     @Override
     public String toString() {
         return "Comment{" +

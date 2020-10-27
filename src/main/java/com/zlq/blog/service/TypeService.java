@@ -2,11 +2,13 @@ package com.zlq.blog.service;
 
 import com.zlq.blog.pojo.Type;
 import org.springframework.data.domain.Page;
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Create by lanqzhou on 2020.10.26
  */
+
+
 public interface TypeService {
 
     Type saveType(Type type);

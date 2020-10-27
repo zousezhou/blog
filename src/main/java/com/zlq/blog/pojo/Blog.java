@@ -64,6 +64,10 @@ public class Blog {
         this.commentList = commentList;
     }
 
+    public Blog() {
+
+    }
+
 
     @Override
     public String toString() {

@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
-import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 /**
  * Create by lanqzhou on 2020.10.26
  */
+
+@Service
 public class TypeServiceImp implements TypeService {
 
     @Autowired
@@ -54,7 +56,8 @@ public class TypeServiceImp implements TypeService {
     @Transactional
     @Override
     public Page<Type> listType(Pageable pageable) {
-
-        return typeRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        return typeRepository.findAll(pageable);
     }
+
+
 }

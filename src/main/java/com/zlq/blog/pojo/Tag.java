@@ -26,6 +26,10 @@ public class Tag {
         this.name = name;
     }
 
+    public Tag() {
+
+    }
+
     @Override
     public String toString() {
         return "id=" + id +

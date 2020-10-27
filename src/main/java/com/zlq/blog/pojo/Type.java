@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="t_type")
+@Table(name="t_type",uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class Type {
 
     @Id
@@ -24,6 +24,10 @@ public class Type {
         this.id = id;
         this.name = name;
         this.blog = blog;
+    }
+
+    public Type() {
+
     }
 
 
