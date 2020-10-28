@@ -1,6 +1,7 @@
 package com.zlq.blog.service.imp;
 
 import com.zlq.blog.dto.TypeRepository;
+import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.exception.NotFoundException;
 import com.zlq.blog.pojo.Type;
 import com.zlq.blog.service.TypeService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,16 @@ public class TypeServiceImp implements TypeService {
     @Transactional
     @Override
     public Type saveType(Type type) {
-        return typeRepository.save(type);
+        Type t = null;
+        t = typeRepository.findByName(type.getName());
+        if (t != null) {
+            throw new IllegalOperationException("该分类已存在，不能重复添加！");
+        }
+        t = typeRepository.save(type);
+        if (t == null){
+            throw new IllegalOperationException("新增失败！");
+        }
+        return t;
     }
 
 
@@ -39,12 +50,12 @@ public class TypeServiceImp implements TypeService {
     @Transactional
     @Override
     public Type updateType(Long id, Type type) {
-       Type t = typeRepository.getOne(id);
-       if (t==null){
-           throw new NotFoundException("不存在该类型");
-       }
-       BeanUtils.copyProperties(type,t);
-       return typeRepository.save(t);
+        Type t = typeRepository.getOne(id);
+        if (t == null) {
+            throw new NotFoundException("不存在该类型");
+        }
+        BeanUtils.copyProperties(type, t);
+        return typeRepository.save(t);
     }
 
     @Transactional

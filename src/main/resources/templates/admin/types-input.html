@@ -47,6 +47,11 @@
 <!--中间部分-->
 <div class="m-container-small m-padded-tb-big">
   <div class="ui container">
+    <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}">
+      <i class="close icon"></i>
+      <div class="header">提示：</div>
+      <p th:text="${message}">成功</p>
+    </div>
     <form action="#" method="post" th:action="@{/admin/types/insert}" class="ui form">
       <div class="field">
         <div class="ui left labeled input">
@@ -57,12 +62,16 @@
         </div>
       </div>
 
-      <div class="ui error message"></div>
+
+
+
       <div class="ui right aligned container">
         <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
         <button class="ui teal submit button">提交</button>
       </div>
     </form>
+
+
 
   </div>
 </div>
@@ -136,7 +145,7 @@
         identifier:'title',
         rules:[{
           type:'empty',
-          prompt:'标题:请输入博客标题'
+          prompt:'标题:请输入博客分类名称'
         }]
       }
     }

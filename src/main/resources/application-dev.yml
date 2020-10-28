@@ -7,14 +7,28 @@ spring:
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+
+
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show_sql: true  #打印sql日志
+      #format_sql: true #格式化sql
+      #use_sql_comments: true 是否显示注释，用于指示出是什么操作产生了这个SQL语句。
+      #database-platform: org.hibernate.dialect.MySQL5InnoDBDialec
+
 logging:
   level:
     root: info
     com.zlq: debug
+    org.springframework.web: error
+    org.hibernate.SQL: debug
+
+    org.hibernate.engine.QueryParameters: debug
+    org.hibernate.engine.query.HQLQueryPlan: debug
+
+    #查看查询中命名参数的值
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 
 

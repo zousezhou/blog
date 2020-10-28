@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Create by lanqZhou on 2020.10.26
  */
 public interface TypeRepository extends JpaRepository<Type,Long> {
-
+    Type findByName(String name);
 }
