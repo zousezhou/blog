@@ -3,18 +3,17 @@
 <head th:replace="admin/_fragments :: head(~{:: title})">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>分类发布</title>
+  <title>标签列表</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
   <link rel="stylesheet" href="../../static/css/blog.css">
-  <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
 </head>
 <body>
 <!--导航-->
-<nav th:replace="admin/_fragments :: menu(2)" class="ui inverted segment m-padded-tb-mini m-shadow-small">
+<nav th:replace="admin/_fragments :: menu(3)" class="ui inverted segment m-padded-tb-mini m-shadow-small">
   <div class="ui container">
     <div class="ui inverted secondary stackable menu">
-      <h2 class="ui teal header item">分类发布</h2>
+      <h2 class="ui teal header item">标签列表</h2>
       <a href="#" class="m-tiem item m-mobile-hide"><i class="mini home icon"></i>博客</a>
       <a href="#" class="m-tiem item m-mobile-hide"><i class="mini idea icon"></i>分类</a>
       <a href="#" class="m-tiem item m-mobile-hide"><i class="mini tags icon"></i>标签</a>
@@ -39,45 +38,50 @@
 <div class="ui attached pointing menu">
   <div class="ui container">
     <div class="right menu"></div>
-    <a href="#" th:href="@{/admin/types/input}" class="teal active item">发布</a>
-    <a href="#" th:href="@{/admin/types}" class="item">列表</a>
+    <a href="#" th:href="@{/admin/tags/input}" class="item">发布</a>
+    <a href="#" th:href="@{/admin/tags}" class="teal active item">列表</a>
   </div>
 </div>
 
 <!--中间部分-->
 <div class="m-container-small m-padded-tb-big">
-  <div class="ui container">
-
-    <!--/*/<th:block>/*/-->
+  <div class="ui m-container">
     <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}">
       <i class="close icon"></i>
       <div class="header">提示：</div>
       <p th:text="${message}">成功</p>
     </div>
-    <!--/*/</th:block>/*/-->
+    <table class="ui celled table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>标签名称</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="tag,iterStat: ${page.content}">
+        <td data-label="Name" th:text="${iterStat.count}">1</td>
+        <td data-label="Job"  th:text="${tag.name}">认知升级</td>
+        <td data-label="Job">
+          <a href="#" th:href="@{/admin/tags/{id}/update(id=${tag.id})}" class="ui mini teal basic button">编辑</a>
+          <a href="#" th:href="@{/admin/tags/{id}/input(id=${tag.id})}" class="ui mini red basic button">删除</a>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="6">
+            <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
+              <a class="item" th:href="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
+              <a class="item" th:href="@{/admin/tags(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
+            </div>
+            <a class="ui mini right floated teal basic button" th:href="@{/admin/tags/input}">新增</a>
+          </th>
 
-
-    <form action="#" method="post" th:action="@{/admin/types/insert}" class="ui form">
-      <div class="required field">
-        <div class="ui left labeled input">
-          <div class="ui labeled input">
-            <label class="ui teal basic label">名称</label>
-            <input type="hidden" name="id" th:value="${id}">
-            <input type="text" name="name" th:value="${name}" placeholder="分类名称">
-          </div>
-        </div>
-      </div>
-
-      <div class="ui mini error message"></div>
-
-      <div class="ui right aligned container">
-        <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
-        <button class="ui teal submit button">提交</button>
-      </div>
-    </form>
-
-
-
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>
 <br>
@@ -122,21 +126,14 @@
 </footer>
 
 
-
 <!--/*/<th:block th:replace="_fragments :: script">/*/-->
 <script src = "https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
-
-
 <script>
-
-
   $('.menu.toggle').click(function(){
     $('.m-tiem').toggleClass('m-mobile-hide');
   });
-
-
 
   $('.ui.dropdown').dropdown({
     on:'hover'
@@ -144,28 +141,10 @@
 
   //消息提示关闭初始化
   $('.message .close').click(function (){
-            $(this)
-                    .closest('.message')
-                    .transition('fade');
-          });
-
-  $('.ui.form').form({
-    fields:{
-      name:{
-        identifier:'name',
-        rules:[{
-          type:'empty',
-          prompt:'标题:请输入博客分类名称!'
-        }]
-      }
-    }
+    $(this)
+            .closest('.message')
+            .transition('fade');
   });
-
-
-
-
-
-
 
 </script>
 </body>

@@ -27,10 +27,12 @@ public class TypeServiceImp implements TypeService {
 
     @Transactional
     @Override
-    public Type saveType(Type type) {
+    public Type saveType(Type type) {//type更新和新增的  service
         Type t = null;
+
         t = typeRepository.findByName(type.getName());
-        if (t != null) {
+
+        if (t != null && t.getId() != type.getId()) {
             throw new IllegalOperationException("该分类已存在，不能重复添加！");
         }
         t = typeRepository.save(type);
@@ -47,7 +49,7 @@ public class TypeServiceImp implements TypeService {
         typeRepository.deleteById(id);
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public Type updateType(Long id, Type type) {
         Type t = typeRepository.getOne(id);
@@ -56,7 +58,7 @@ public class TypeServiceImp implements TypeService {
         }
         BeanUtils.copyProperties(type, t);
         return typeRepository.save(t);
-    }
+    }*/
 
     @Transactional
     @Override

@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 @Controller
 @RequestMapping("/admin/types")
-public class typeController {
+public class TypeController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -45,17 +45,23 @@ public class typeController {
         return "admin/types-input";
     }
 
+    @GetMapping("/*/update")
+    public String updateType(Model model){
+        Long id = getId();
+        Type type = typeService.getType(id);
+        model.addAttribute("name",type.getName());
+        model.addAttribute("id",id);
+        return "admin/types-input";
+    }
+
+
+
 
     @GetMapping("/*/input")
     public String deleteType(RedirectAttributes redirectAttributes){
 
         try {
-            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-            //获取request的url
-            String url = httpServletRequest.getRequestURL().toString();
-            String urlid = url.substring(url.lastIndexOf("s")+2,url.lastIndexOf("/"));
-            Long id = Long.valueOf(urlid);
+            Long id = getId();
             typeService.deleteType(id);
             redirectAttributes.addFlashAttribute("message","删除成功！");
         } catch (Exception e) {
@@ -71,6 +77,10 @@ public class typeController {
         try {
             t = typeService.saveType(type);
         }catch (IllegalOperationException e){
+            if(type.getId()!=null){
+                redirectAttributes.addFlashAttribute("id",type.getId());
+                redirectAttributes.addFlashAttribute("name",type.getName());
+            }
             redirectAttributes.addFlashAttribute("message",e.getMessage());
             return "redirect:/admin/types/input";
         }catch (Exception exception) {
@@ -83,5 +93,14 @@ public class typeController {
     }
 
 
+    public Long getId(){
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+        //获取request的url
+        String url = httpServletRequest.getRequestURL().toString();
+        String urlid = url.substring(url.lastIndexOf("s")+2,url.lastIndexOf("/"));
+        Long id = Long.valueOf(urlid);
+        return id;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.zlq.blog.service;
 
+import com.zlq.blog.pojo.Tag;
 import com.zlq.blog.pojo.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,14 +10,14 @@ import org.springframework.data.domain.Pageable;
  */
 
 
-public interface TypeService {
+public interface TagService {
 
-    Type saveType(Type type);
+    Tag saveTag(Tag tag);
 
-    void deleteType(Long id);
+    void deleteTag(Long id);
 
-    Type getType(Long id);
+    Tag getTag(Long id);
 
-    Page<Type> listType(Pageable pageable);
+    Page<Tag> listTag(Pageable pageable);
 
 }
