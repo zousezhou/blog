@@ -3,6 +3,7 @@ package com.zlq.blog.web.admin;
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Tag;
 import com.zlq.blog.service.TagService;
+import com.zlq.blog.util.URLSessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class TagController {
 
     @GetMapping("/*/update")
     public String updateTag(Model model){
-        Long id = getId();
+        Long id = URLSessionUtil.getId();
         Tag tag = tagService.getTag(id);
         model.addAttribute("name",tag.getName());
         model.addAttribute("id",id);
@@ -60,7 +61,7 @@ public class TagController {
     public String deleteTag(RedirectAttributes redirectAttributes){
 
         try {
-            Long id = getId();
+            Long id = URLSessionUtil.getId();
             tagService.deleteTag(id);
             redirectAttributes.addFlashAttribute("message","删除成功！");
         } catch (Exception e) {
@@ -91,15 +92,5 @@ public class TagController {
         return "redirect:/admin/tags";
     }
 
-
-    public Long getId(){
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-        //获取request的url
-        String url = httpServletRequest.getRequestURL().toString();
-        String urlid = url.substring(url.lastIndexOf("s")+2,url.lastIndexOf("/"));
-        Long id = Long.valueOf(urlid);
-        return id;
-    }
 
 }

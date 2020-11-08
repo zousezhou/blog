@@ -3,6 +3,7 @@ package com.zlq.blog.web.admin;
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Type;
 import com.zlq.blog.service.TypeService;
+import com.zlq.blog.util.URLSessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class TypeController {
 
     @GetMapping("/*/update")
     public String updateType(Model model){
-        Long id = getId();
+        Long id = URLSessionUtil.getId();
         Type type = typeService.getType(id);
         model.addAttribute("name",type.getName());
         model.addAttribute("id",id);
@@ -61,7 +62,7 @@ public class TypeController {
     public String deleteType(RedirectAttributes redirectAttributes){
 
         try {
-            Long id = getId();
+            Long id = URLSessionUtil.getId();
             typeService.deleteType(id);
             redirectAttributes.addFlashAttribute("message","删除成功！");
         } catch (Exception e) {
@@ -90,17 +91,6 @@ public class TypeController {
             redirectAttributes.addFlashAttribute("message","成功！");
         }
         return "redirect:/admin/types";
-    }
-
-
-    public Long getId(){
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-        //获取request的url
-        String url = httpServletRequest.getRequestURL().toString();
-        String urlid = url.substring(url.lastIndexOf("s")+2,url.lastIndexOf("/"));
-        Long id = Long.valueOf(urlid);
-        return id;
     }
 
 }
