@@ -18,6 +18,8 @@ public interface BlogService {
 
     Blog getBlog(Long id);
 
-    Page<Blog> listBlog(Pageable pageable);
+    Page<Blog> listBlog(Pageable pageable,Blog blog);
+
+    Blog updateBlog(Blog blog,Long id);
 
 }

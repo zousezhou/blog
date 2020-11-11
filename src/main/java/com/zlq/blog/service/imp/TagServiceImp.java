@@ -2,8 +2,10 @@ package com.zlq.blog.service.imp;
 
 import com.zlq.blog.dto.TagRepository;
 import com.zlq.blog.exception.IllegalOperationException;
+import com.zlq.blog.exception.NotFoundException;
 import com.zlq.blog.pojo.Tag;
 import com.zlq.blog.service.TagService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +43,7 @@ public class TagServiceImp implements TagService {
         tagRepository.deleteById(id);
     }
 
-   /* @Transactional
+    @Transactional
     @Override
     public Tag updateTag(Long id, Tag tag) {
         Tag t = tagRepository.getOne(id);
@@ -51,7 +53,6 @@ public class TagServiceImp implements TagService {
         BeanUtils.copyProperties(tag, t);
         return tagRepository.save(t);
     }
-*/
     @Override
     public Tag getTag(Long id) {
         return tagRepository.getOne(id);

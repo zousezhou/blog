@@ -26,8 +26,8 @@
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown item">
                     <div class="text">
-                        <img src="https://picsum.photos/60/60?image=1012" class="ui avatar image" >
-                        lench
+                        <img src="https://picsum.photos/60/60?image=1012" th:src="@{${session.user.avater}}"  class="ui avatar image" >
+                        <span th:text="${session.user.nickname}">lench</span>
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">

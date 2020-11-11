@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Create by lanqzhou on 2020.10.26
  */
@@ -70,6 +72,11 @@ public class TypeServiceImp implements TypeService {
     @Override
     public Page<Type> listType(Pageable pageable) {
         return typeRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Type> listType() {
+        return typeRepository.findAll();
     }
 
 
