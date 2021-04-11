@@ -40,7 +40,8 @@ public class BlogController {
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)Pageable pageable,
+    public String search(@PageableDefault(size = 10,
+            sort = {"id"},direction = Sort.Direction.DESC)Pageable pageable,
                      Blog blog,Model model){
         model.addAttribute("page",blogService.listBlog(pageable,blog));
         return "admin/blogs :: blogList";
