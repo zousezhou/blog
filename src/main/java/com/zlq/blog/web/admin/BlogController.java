@@ -32,8 +32,8 @@ public class BlogController {
     TypeService typeService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)Pageable pageable,
-                       Blog blog, Model model){
+    public String list(@PageableDefault(size = 10,sort = {"id"},
+            direction = Sort.Direction.DESC)Pageable pageable,Blog blog, Model model){
         model.addAttribute("types",typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable,blog));
         return "admin/blogs";

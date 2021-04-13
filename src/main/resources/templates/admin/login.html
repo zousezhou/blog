@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="../../static/css/blog.css">
 </head>
 <body>
-
-
   <div class="m-container-small m-padded-tb-massive" style="max-width: 30em !important;">
     <div class="ui container">
       <div class="ui middle aligned center aligned grid">
@@ -39,13 +37,11 @@
             </div>
 
             <div class="ui mini error message"></div>
-
             <!--/*/<th:block>/*/-->
-            <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}" th:text="${message}">账号或密码不能为空</div>
+            <div class="ui mini negative message" th:unless="${#strings.isEmpty(message)}"
+                 th:text="${message}">账号或密码不能为空</div>
             <!--/*/</th:block>/*/-->
           </form>
-
-
 
         </div>
       </div>
@@ -74,8 +70,6 @@
         }
       }
     });
-
-
   </script>
 </body>
 </html>

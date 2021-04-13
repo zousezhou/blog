@@ -53,7 +53,7 @@
       <p th:text="${message}">成功</p>
     </div>
 
-    <form action="#" th:action="/admin/blogs/search" method="post" class="ui segment form">
+    <form action="#" th:action="@{/admin/blogs/search}" method="post" class="ui segment form">
       <div class="inline fields">
         <input type="hidden" name="page" >
         <div class="field">
@@ -64,7 +64,7 @@
             <input name="type" type="hidden">
             <i class="dropdown icon"></i>
             <div class="default text">分类</div>
-            <div class="menu" th:each="type,iterSata:${types.content}">
+            <div class="menu" th:each="type,iterSata:${types}">
               <div class="item" data-value="1"><span th:text="${type.name}">错误日志</span></div>
             </div>
           </div>
@@ -75,9 +75,7 @@
             <input type="checkbox" id="recommend" name="recommend">
             <label for="recommend">推荐</label>
           </div>
-
         </div>
-
         <div class="field">
           <button class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
         </div>
@@ -96,28 +94,31 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="blog,iterSata:${page.content}">
-        <td data-label="Name" th:text="${iterStat.count}">1</td>
-        <td data-label="Age" th:text="${blog.title}">可以联系是</td>
-        <td data-label="Job" th:text="${blog.type.name}">认知升级</td>
-        <td data-label="Job" th:text="${blog.recommend ? '是':'否'}">是</td>
-        <td data-label="Job" th:text="${blog.updateTime}">2020-10-10</td>
-        <td data-label="Job">
-          <a href="#" th:href="@{/admin/blogs/{id}/update(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
-          <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui mini red basic button">删除</a>
-        </td>
-      </tr>
+        <tr th:each="blog,iterSata:${page.content}">
+          <td data-label="Name" th:text="${iterStat.count}">1</td>
+          <td data-label="Age" th:text="${blog.title}">可以联系是</td>
+          <td data-label="Job" th:text="${blog.type.name}">认知升级</td>
+          <td data-label="Job" th:text="${blog.recommend ? '是':'否'}">是</td>
+          <td data-label="Job" th:text="${blog.updateTime}">2020-10-10</td>
+          <td data-label="Job">
+            <a href="#" th:href="@{/admin/blogs/{id}/update(id=${blog.id})}"
+               class="ui mini teal basic button">编辑</a>
+            <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}"
+               class="ui mini red basic button">删除</a>
+          </td>
+        </tr>
       </tbody>
       <tfoot>
         <tr>
           <th colspan="6">
             <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
-              <a class="item" th:onclick="page(this)" data-page="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
-              <a class="item" th:onclick="page(this)" data-page="@{/admin/tags(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
+              <a class="item" th:onclick="page(this)"
+                 data-page="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
+              <a class="item" th:onclick="page(this)"
+                 data-page="@{/admin/tags(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
             </div>
             <a class="ui mini right floated teal basic button" th:href="@{/admin/blogs/input}">新增</a>
           </th>
-
         </tr>
       </tfoot>
     </table>
@@ -178,11 +179,9 @@
     on:'hover'
   });
 
-
   function page(obj){
     $('[name="page"]').val($(obj).data("page"));
   }
-
 
 </script>
 </body>

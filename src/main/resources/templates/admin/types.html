@@ -64,8 +64,10 @@
         <td data-label="Name" th:text="${iterStat.count}">1</td>
         <td data-label="Job"  th:text="${type.name}">认知升级</td>
         <td data-label="Job">
-          <a href="#" th:href="@{/admin/types/{id}/update(id=${type.id})}" class="ui mini teal basic button">编辑</a>
-          <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}" class="ui mini red basic button">删除</a>
+          <a href="#" th:href="@{/admin/types/{id}/update(id=${type.id})}"
+             class="ui mini teal basic button">编辑</a>
+          <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}"
+             class="ui mini red basic button">删除</a>
         </td>
       </tr>
       </tbody>
@@ -73,8 +75,10 @@
         <tr>
           <th colspan="6">
             <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
-              <a class="item" th:href="@{/admin/types(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
-              <a class="item" th:href="@{/admin/types(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
+              <a class="item" th:href="@{/admin/types(page=${page.number}-1)}"
+                 th:unless="${page.first}">上一页</a>
+              <a class="item" th:href="@{/admin/types(page=${page.number}+1)}"
+                 th:unless="${page.last}">下一页</a>
             </div>
             <a class="ui mini right floated teal basic button" th:href="@{/admin/types/input}">新增</a>
           </th>
