@@ -3,10 +3,10 @@ package com.zlq.blog.web.admin;
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Blog;
 import com.zlq.blog.service.BlogService;
+import com.zlq.blog.service.TagService;
 import com.zlq.blog.service.TypeService;
 import com.zlq.blog.util.URLSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.xml.ws.Service;
-
 /**
  * Create by lanqZhou on 2020.10.22
  */
@@ -26,30 +24,36 @@ import javax.xml.ws.Service;
 @RequestMapping("/admin/blogs")
 public class BlogController {
 
+    private final String BLOGS = "admin/blogs";
+    private final String BLOGS_INPUT = "admin/blogs-input";
+    private final String REDIRECT_BLOGS = "redirect:admin/blogs";
     @Autowired
-    BlogService blogService;
+    private TagService tagService;
     @Autowired
-    TypeService typeService;
+    private BlogService blogService;
+    @Autowired
+    private TypeService typeService;
 
     @GetMapping
     public String list(@PageableDefault(size = 10,sort = {"id"},
             direction = Sort.Direction.DESC)Pageable pageable,Blog blog, Model model){
         model.addAttribute("types",typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable,blog));
-        return "admin/blogs";
+        return BLOGS;
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 10,
-            sort = {"id"},direction = Sort.Direction.DESC)Pageable pageable,
-                     Blog blog,Model model){
+    public String search(@PageableDefault(size = 10,sort = {"id"},
+            direction = Sort.Direction.DESC)Pageable pageable,Blog blog,Model model){
         model.addAttribute("page",blogService.listBlog(pageable,blog));
         return "admin/blogs :: blogList";
     }
 
     @GetMapping("/input")
-    public String blogInput(){
-        return "admin/blogs-input";
+    public String blogInput(Model model){
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
+        return BLOGS_INPUT;
     }
 
 
@@ -57,8 +61,10 @@ public class BlogController {
     public String updateBlogInput(Model model){
         Long id = URLSessionUtil.getId();
         Blog blog = blogService.getBlog(id);
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
         model.addAttribute("blog",blog);
-        return "admin/blog-input";
+        return BLOGS_INPUT;
     }
 
 
@@ -72,30 +78,30 @@ public class BlogController {
             redirectAttributes.addFlashAttribute("message",e.getMessage());
             e.printStackTrace();
         }
-        return "redirect:/admin/blogs";
+        return REDIRECT_BLOGS;
     }
 
 
-    @GetMapping("/*/save")
+    @PostMapping("/save")
     public String saveBlog(Blog blog,Model model,RedirectAttributes redirectAttributes) {
-        Boolean published = blog.isPublished();
+        boolean published = blog.isPublished();
         Blog b = null;
         try {
            b = blogService.saveBlog(blog);
         }catch (IllegalOperationException illegalOperationException){
             redirectAttributes.addFlashAttribute("message",illegalOperationException.getMessage());
             redirectAttributes.addFlashAttribute("Blog",blog);
-            return "redirect:/admin/blogs";
+            return REDIRECT_BLOGS;
         }catch (Exception e) {
             e.printStackTrace();
         }
-
         if (published){
-            return "redirect:/admin/blogs";
+            return REDIRECT_BLOGS;
         }
-        
-        model.addAttribute("Blog",blog);
-        return "admin/blogs/input";
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
+        model.addAttribute("Blog",b);
+        return BLOGS_INPUT;
     }
 
 }

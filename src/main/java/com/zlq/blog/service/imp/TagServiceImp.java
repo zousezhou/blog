@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Create by lanqzhou on 2020.10.26
@@ -26,7 +27,6 @@ public class TagServiceImp implements TagService {
     @Override
     public Tag saveTag(Tag tag) {
         Tag t = tagRepository.findByName(tag.getName());
-
         if (t != null && t.getId() != tag.getId()) {
             throw new IllegalOperationException("该标签已存在，不能重复添加！");
         }
@@ -61,6 +61,11 @@ public class TagServiceImp implements TagService {
     @Override
     public Page<Tag> listTag(Pageable pageable) {
         return tagRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Tag> listTag() {
+        return tagRepository.findAll();
     }
 
 

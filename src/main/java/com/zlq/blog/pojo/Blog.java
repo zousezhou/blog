@@ -44,7 +44,12 @@ public class Blog {
     @OneToMany(mappedBy = "blog")
     private List<Comment> commentList = new ArrayList<>();
 
-    public Blog(Long id, String title, String content, String firstPicture, String flag, String views, boolean appreciation, boolean shareStatement, boolean commentable, boolean published, boolean recommend, Date createTime, Date updateTime, Type type, List<Tag> tagList, User user, List<Comment> commentList) {
+    public Blog(Long id, String title, String content,
+                String firstPicture, String flag, String views,
+                boolean appreciation, boolean shareStatement,
+                boolean commentable, boolean published, boolean recommend,
+                Date createTime, Date updateTime, Type type, List<Tag> tagList,
+                User user, List<Comment> commentList) {
         this.id = id;
         this.title = title;
         this.content = content;

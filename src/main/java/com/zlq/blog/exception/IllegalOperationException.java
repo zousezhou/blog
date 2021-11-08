@@ -1,9 +1,6 @@
 package com.zlq.blog.exception;
 
 
-import org.slf4j.LoggerFactory;
-
-import java.util.logging.Logger;
 
 /**
  * Create by lanqzhou on 2020.10.28
@@ -34,7 +31,8 @@ public class IllegalOperationException extends RuntimeException{
         super(cause);
     }
 
-    public IllegalOperationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public IllegalOperationException(String message, Throwable cause,
+                                     boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

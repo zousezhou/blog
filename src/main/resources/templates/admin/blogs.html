@@ -20,7 +20,7 @@
       <div class="right m-item m-mobile-hide menu">
         <div class="ui dropdown item">
           <div class="text">
-            <img src="https://picsum.photos/60/60?image=1012" class="ui avatar image" >
+            <img src="https://picsum.photos/60/60?image=1012" class="ui avatar image" alt="">
             lench
           </div>
           <i class="dropdown icon"></i>
@@ -64,8 +64,9 @@
             <input name="type" type="hidden">
             <i class="dropdown icon"></i>
             <div class="default text">分类</div>
-            <div class="menu" th:each="type,iterSata:${types}">
-              <div class="item" data-value="1"><span th:text="${type.name}">错误日志</span></div>
+            <div class="menu" >
+              <div class="item"  data-value="1" th:each="type:${types}"
+                   th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
             </div>
           </div>
         </div>
@@ -82,7 +83,7 @@
       </div>
     </form>
 
-    <table class="ui celled table">
+    <table class="ui  celled table">
       <thead>
       <tr>
         <th >#</th>
@@ -94,38 +95,36 @@
       </tr>
       </thead>
       <tbody>
-        <tr th:each="blog,iterSata:${page.content}">
-          <td data-label="Name" th:text="${iterStat.count}">1</td>
-          <td data-label="Age" th:text="${blog.title}">可以联系是</td>
-          <td data-label="Job" th:text="${blog.type.name}">认知升级</td>
-          <td data-label="Job" th:text="${blog.recommend ? '是':'否'}">是</td>
-          <td data-label="Job" th:text="${blog.updateTime}">2020-10-10</td>
-          <td data-label="Job">
-            <a href="#" th:href="@{/admin/blogs/{id}/update(id=${blog.id})}"
-               class="ui mini teal basic button">编辑</a>
-            <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}"
-               class="ui mini red basic button">删除</a>
-          </td>
-        </tr>
+      <tr th:each="blog,iterSata:${page.content}">
+        <td data-label="Name" th:text="${iterStat.count}">1</td>
+        <td data-label="Age" th:text="${blog.title}">可以联系是</td>
+        <td data-label="Job" th:text="${blog.type.name}">认知升级</td>
+        <td data-label="Job" th:text="${blog.recommend ? '是':'否'}">是</td>
+        <td data-label="Job" th:text="${blog.updateTime}">2020-10-10</td>
+        <td data-label="Job">
+          <a href="#" th:href="@{/admin/blogs/{id}/update(id=${blog.id})}"
+             class="ui mini teal basic button">编辑</a>
+          <a href="#" th:href="@{/admin/blogs/{id}/delete(id=${blog.id})}"
+             class="ui mini red basic button">删除</a>
+        </td>
+      </tr>
       </tbody>
       <tfoot>
-        <tr>
-          <th colspan="6">
-            <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
-              <a class="item" th:onclick="page(this)"
-                 data-page="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
-              <a class="item" th:onclick="page(this)"
-                 data-page="@{/admin/tags(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
-            </div>
-            <a class="ui mini right floated teal basic button" th:href="@{/admin/blogs/input}">新增</a>
-          </th>
-        </tr>
+      <tr>
+        <th colspan="6">
+          <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
+            <a class="item" th:onclick="page(this)"
+               data-page="@{/admin/tags(page=${page.number}-1)}" th:unless="${page.first}">上一页</a>
+            <a class="item" th:onclick="page(this)"
+               data-page="@{/admin/tags(page=${page.number}+1)}" th:unless="${page.last}">下一页</a>
+          </div>
+          <a class="ui mini right floated teal basic button" th:href="@{/admin/blogs/input}">新增</a>
+        </th>
+      </tr>
       </tfoot>
     </table>
   </div>
 </div>
-<br>
-<br>
 
 <!--底部footer-->
 <footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
@@ -166,7 +165,7 @@
 </footer>
 
 
-<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
 <script src = "https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
