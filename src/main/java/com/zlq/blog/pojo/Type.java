@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="t_type",uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@Table(name = "t_type", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class Type {
 
     @Id
@@ -33,7 +33,7 @@ public class Type {
 
     @Override
     public String toString() {
-        return  "id=" + id +
+        return "id=" + id +
                 ", name='" + name + '\'' +
                 ", blog=" + blog +
                 '}';
@@ -46,8 +46,6 @@ public class Type {
     public void setBlog(List<Blog> blog) {
         this.blog = blog;
     }
-
-
 
 
     public Long getId() {

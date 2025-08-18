@@ -48,24 +48,24 @@ public class BlogServiceImp implements BlogService {
 
     @Override
     public Page<Blog> listBlog(Pageable pageable, Blog blog) {
-        return  blogRepository.findAll(new Specification<Blog>(){
+        return blogRepository.findAll(new Specification<Blog>() {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
 
                 List<Predicate> predicates = new ArrayList<>();
-                if (StringUtils.isNotEmpty(blog.getTitle())){
-                    predicates.add(criteriaBuilder.like(root.<String>get("title"),"%"+blog.getTitle()+"%"));
+                if (StringUtils.isNotEmpty(blog.getTitle())) {
+                    predicates.add(criteriaBuilder.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
                 }
-                if (blog.getType() != null){
-                    predicates.add(criteriaBuilder.equal(root.<Type>get("type").get("id"),blog.getId()));
+                if (blog.getType() != null) {
+                    predicates.add(criteriaBuilder.equal(root.<Type>get("type").get("id"), blog.getId()));
                 }
-                if (blog.isRecommend()){
-                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"),blog.isRecommend()));
+                if (blog.isRecommend()) {
+                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
                 }
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
                 return null;
             }
-        },pageable);
+        }, pageable);
 
     }
 
@@ -73,10 +73,10 @@ public class BlogServiceImp implements BlogService {
     public Blog updateBlog(Blog blog, Long id) {
         Blog b = null;
         b = blogRepository.getOne(id);
-        if (b != null){
+        if (b != null) {
             throw new IllegalOperationException("博客已存在！");
         }
-        BeanUtils.copyProperties(blog,b);
+        BeanUtils.copyProperties(blog, b);
         return blogRepository.save(b);
     }
 

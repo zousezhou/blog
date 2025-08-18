@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="t_blog")
+@Table(name = "t_blog")
 public class Blog {
 
     @Id
@@ -22,11 +22,11 @@ public class Blog {
     private String firstPicture;
     private String flag;
     private String views;
-    private  boolean appreciation;
-    private  boolean shareStatement;
-    private  boolean commentable;
-    private  boolean published;
-    private  boolean recommend;
+    private boolean appreciation;
+    private boolean shareStatement;
+    private boolean commentable;
+    private boolean published;
+    private boolean recommend;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)

@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @Entity
-@Table(name="t_tag")
+@Table(name = "t_tag")
 public class Tag {
 
     @Id

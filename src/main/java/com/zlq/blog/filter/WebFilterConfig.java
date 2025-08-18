@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebFilterConfig {
 
     @Bean
-    public FilterRegistrationBean encodingFilter(){
+    public FilterRegistrationBean encodingFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         ActionEncodingFilter actionEncodingFilter = new ActionEncodingFilter();
         filterRegistrationBean.setFilter(actionEncodingFilter);

@@ -34,60 +34,58 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)
-                               Pageable pageable, Model model){
-        model.addAttribute("page",tagService.listTag(pageable));
+    public String list(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+                               Pageable pageable, Model model) {
+        model.addAttribute("page", tagService.listTag(pageable));
         return "admin/tags";
     }
 
     @GetMapping("/input")
-    public String input(){
+    public String input() {
         return "admin/tags-input";
     }
 
     @GetMapping("/*/update")
-    public String updateTag(Model model){
+    public String updateTag(Model model) {
         Long id = URLSessionUtil.getId();
         Tag tag = tagService.getTag(id);
-        model.addAttribute("name",tag.getName());
-        model.addAttribute("id",id);
+        model.addAttribute("name", tag.getName());
+        model.addAttribute("id", id);
         return "admin/tags-input";
     }
 
 
-
-
     @GetMapping("/*/input")
-    public String deleteTag(RedirectAttributes redirectAttributes){
+    public String deleteTag(RedirectAttributes redirectAttributes) {
 
         try {
             Long id = URLSessionUtil.getId();
             tagService.deleteTag(id);
-            redirectAttributes.addFlashAttribute("message","删除成功！");
+            redirectAttributes.addFlashAttribute("message", "删除成功！");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             e.printStackTrace();
         }
         return "redirect:/admin/tags";
     }
 
     @PostMapping("/insert")
-    public String insertTag(Tag tag, RedirectAttributes redirectAttributes){
+    public String insertTag(Tag tag, RedirectAttributes redirectAttributes) {
         Tag t = null;
         try {
             t = tagService.saveTag(tag);
-        }catch (IllegalOperationException e){
-            if(tag.getId()!=null){
-                redirectAttributes.addFlashAttribute("id",tag.getId());
-                redirectAttributes.addFlashAttribute("name",tag.getName());
+        } catch (IllegalOperationException e) {
+            if (tag.getId() != null) {
+                redirectAttributes.addFlashAttribute("id", tag.getId());
+                redirectAttributes.addFlashAttribute("name", tag.getName());
             }
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/tags/input";
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
-        if (t!=null){
-            redirectAttributes.addFlashAttribute("message","成功！");
+        if (t != null) {
+            redirectAttributes.addFlashAttribute("message", "成功！");
         }
         return "redirect:/admin/tags";
     }

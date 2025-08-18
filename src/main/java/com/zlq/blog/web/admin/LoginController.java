@@ -21,26 +21,26 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping
-    public String loginPage(){
+    public String loginPage() {
         return "admin/login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password,
-                        HttpSession httpSession, RedirectAttributes redirectAttributes){
-        User user = userService.checkUser(username,password);
-        if(user != null){
+                        HttpSession httpSession, RedirectAttributes redirectAttributes) {
+        User user = userService.checkUser(username, password);
+        if (user != null) {
             user.setPassword(null);
-            httpSession.setAttribute("user",user);
+            httpSession.setAttribute("user", user);
             return "admin/index";
-        }else{
-            redirectAttributes.addFlashAttribute("message","账号或者密码不正确！");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "账号或者密码不正确！");
             return "redirect:/admin";
         }
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession httpSession){
+    public String logout(HttpSession httpSession) {
         httpSession.removeAttribute("user");
         return "redirect:/admin";
     }

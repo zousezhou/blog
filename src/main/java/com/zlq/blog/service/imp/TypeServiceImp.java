@@ -38,7 +38,7 @@ public class TypeServiceImp implements TypeService {
             throw new IllegalOperationException("该分类已存在，不能重复添加！");
         }
         t = typeRepository.save(type);
-        if (t == null){
+        if (t == null) {
             throw new IllegalOperationException("新增失败！");
         }
         return t;

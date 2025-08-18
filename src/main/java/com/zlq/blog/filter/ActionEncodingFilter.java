@@ -20,7 +20,7 @@ public class ActionEncodingFilter implements Filter {
         servletRequest.setCharacterEncoding("UTF-8");
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         httpServletResponse.setCharacterEncoding("UTF-8");
-        filterChain.doFilter(servletRequest,httpServletResponse);
+        filterChain.doFilter(servletRequest, httpServletResponse);
     }
 
     @Override

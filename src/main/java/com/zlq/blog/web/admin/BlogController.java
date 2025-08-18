@@ -35,47 +35,47 @@ public class BlogController {
     private TypeService typeService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10,sort = {"id"},
-            direction = Sort.Direction.DESC)Pageable pageable,Blog blog, Model model){
-        model.addAttribute("types",typeService.listType());
-        model.addAttribute("page",blogService.listBlog(pageable,blog));
+    public String list(@PageableDefault(size = 10, sort = {"id"},
+            direction = Sort.Direction.DESC) Pageable pageable, Blog blog, Model model) {
+        model.addAttribute("types", typeService.listType());
+        model.addAttribute("page", blogService.listBlog(pageable, blog));
         return BLOGS;
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 10,sort = {"id"},
-            direction = Sort.Direction.DESC)Pageable pageable,Blog blog,Model model){
-        model.addAttribute("page",blogService.listBlog(pageable,blog));
+    public String search(@PageableDefault(size = 10, sort = {"id"},
+            direction = Sort.Direction.DESC) Pageable pageable, Blog blog, Model model) {
+        model.addAttribute("page", blogService.listBlog(pageable, blog));
         return "admin/blogs :: blogList";
     }
 
     @GetMapping("/input")
-    public String blogInput(Model model){
-        model.addAttribute("types",typeService.listType());
-        model.addAttribute("tags",tagService.listTag());
+    public String blogInput(Model model) {
+        model.addAttribute("types", typeService.listType());
+        model.addAttribute("tags", tagService.listTag());
         return BLOGS_INPUT;
     }
 
 
     @GetMapping("/*/update")
-    public String updateBlogInput(Model model){
+    public String updateBlogInput(Model model) {
         Long id = URLSessionUtil.getId();
         Blog blog = blogService.getBlog(id);
-        model.addAttribute("types",typeService.listType());
-        model.addAttribute("tags",tagService.listTag());
-        model.addAttribute("blog",blog);
+        model.addAttribute("types", typeService.listType());
+        model.addAttribute("tags", tagService.listTag());
+        model.addAttribute("blog", blog);
         return BLOGS_INPUT;
     }
 
 
     @GetMapping("/*/delete")
-    public String deleteBlog(RedirectAttributes redirectAttributes){
+    public String deleteBlog(RedirectAttributes redirectAttributes) {
         try {
             Long id = URLSessionUtil.getId();
             blogService.deleteBlog(id);
-            redirectAttributes.addFlashAttribute("message","删除成功！");
+            redirectAttributes.addFlashAttribute("message", "删除成功！");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             e.printStackTrace();
         }
         return REDIRECT_BLOGS;
@@ -83,24 +83,24 @@ public class BlogController {
 
 
     @PostMapping("/save")
-    public String saveBlog(Blog blog,Model model,RedirectAttributes redirectAttributes) {
+    public String saveBlog(Blog blog, Model model, RedirectAttributes redirectAttributes) {
         boolean published = blog.isPublished();
         Blog b = null;
         try {
-           b = blogService.saveBlog(blog);
-        }catch (IllegalOperationException illegalOperationException){
-            redirectAttributes.addFlashAttribute("message",illegalOperationException.getMessage());
-            redirectAttributes.addFlashAttribute("Blog",blog);
+            b = blogService.saveBlog(blog);
+        } catch (IllegalOperationException illegalOperationException) {
+            redirectAttributes.addFlashAttribute("message", illegalOperationException.getMessage());
+            redirectAttributes.addFlashAttribute("Blog", blog);
             return REDIRECT_BLOGS;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if (published){
+        if (published) {
             return REDIRECT_BLOGS;
         }
-        model.addAttribute("types",typeService.listType());
-        model.addAttribute("tags",tagService.listTag());
-        model.addAttribute("Blog",b);
+        model.addAttribute("types", typeService.listType());
+        model.addAttribute("tags", tagService.listTag());
+        model.addAttribute("Blog", b);
         return BLOGS_INPUT;
     }
 

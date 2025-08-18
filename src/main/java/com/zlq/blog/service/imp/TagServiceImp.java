@@ -31,7 +31,7 @@ public class TagServiceImp implements TagService {
             throw new IllegalOperationException("该标签已存在，不能重复添加！");
         }
         t = tagRepository.save(tag);
-        if (t == null){
+        if (t == null) {
             throw new IllegalOperationException("新增失败！");
         }
         return t;
@@ -53,6 +53,7 @@ public class TagServiceImp implements TagService {
         BeanUtils.copyProperties(tag, t);
         return tagRepository.save(t);
     }
+
     @Override
     public Tag getTag(Long id) {
         return tagRepository.getOne(id);

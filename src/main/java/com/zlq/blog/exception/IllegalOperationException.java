@@ -1,11 +1,10 @@
 package com.zlq.blog.exception;
 
 
-
 /**
  * Create by lanqzhou on 2020.10.28
  */
-public class IllegalOperationException extends RuntimeException{
+public class IllegalOperationException extends RuntimeException {
 
     private static final long serialVersionUID = 7034897190720280946L;
     private String code;

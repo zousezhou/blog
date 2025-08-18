@@ -35,60 +35,58 @@ public class TypeController {
     private TypeService typeService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)
-                               Pageable pageable, Model model){
-        model.addAttribute("page",typeService.listType(pageable));
+    public String list(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+                               Pageable pageable, Model model) {
+        model.addAttribute("page", typeService.listType(pageable));
         return "admin/types";
     }
 
     @GetMapping("/input")
-    public String input(){
+    public String input() {
         return "admin/types-input";
     }
 
     @GetMapping("/*/update")
-    public String updateType(Model model){
+    public String updateType(Model model) {
         Long id = URLSessionUtil.getId();
         Type type = typeService.getType(id);
-        model.addAttribute("name",type.getName());
-        model.addAttribute("id",id);
+        model.addAttribute("name", type.getName());
+        model.addAttribute("id", id);
         return "admin/types-input";
     }
 
 
-
-
     @GetMapping("/*/input")
-    public String deleteType(RedirectAttributes redirectAttributes){
+    public String deleteType(RedirectAttributes redirectAttributes) {
 
         try {
             Long id = URLSessionUtil.getId();
             typeService.deleteType(id);
-            redirectAttributes.addFlashAttribute("message","删除成功！");
+            redirectAttributes.addFlashAttribute("message", "删除成功！");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             e.printStackTrace();
         }
         return "redirect:/admin/types";
     }
 
     @PostMapping("/insert")
-    public String insertType(Type type, RedirectAttributes redirectAttributes){
+    public String insertType(Type type, RedirectAttributes redirectAttributes) {
         Type t = null;
         try {
             t = typeService.saveType(type);
-        }catch (IllegalOperationException e){
-            if(type.getId()!=null){
-                redirectAttributes.addFlashAttribute("id",type.getId());
-                redirectAttributes.addFlashAttribute("name",type.getName());
+        } catch (IllegalOperationException e) {
+            if (type.getId() != null) {
+                redirectAttributes.addFlashAttribute("id", type.getId());
+                redirectAttributes.addFlashAttribute("name", type.getName());
             }
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/types/input";
-        }catch (Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
-        if (t!=null){
-            redirectAttributes.addFlashAttribute("message","成功！");
+        if (t != null) {
+            redirectAttributes.addFlashAttribute("message", "成功！");
         }
         return "redirect:/admin/types";
     }

@@ -27,7 +27,7 @@ public class LogAspect {
 
     //切入点 就是在execution中所标记的所有方法都被切入了
     @Pointcut("execution(* com.zlq.blog.web.*.*(..))")
-    public void log(){
+    public void log() {
 
     }
 
@@ -45,27 +45,27 @@ public class LogAspect {
         //通过joinpoint获取类名方法名
         String classMehtod = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
         //通过joinpoint获取参数
-        Object[]args = joinPoint.getArgs();
+        Object[] args = joinPoint.getArgs();
 
-        RequestLog requestLog = new RequestLog(url,ip,classMehtod,args);
+        RequestLog requestLog = new RequestLog(url, ip, classMehtod, args);
 
-        logger.info("Request: {}",requestLog);
+        logger.info("Request: {}", requestLog);
     }
 
     //切面方法之后执行的方法的注解
     @After("log()")
-    public void doAfter(){
+    public void doAfter() {
         logger.info("-------after-----");
     }
 
     //切面方法return之后执行的方法注解 returning是指定返回的参数名
-    @AfterReturning(returning = "result",pointcut = "log()")
-    public void doAfterReturn(Object result){
-        logger.info("Result: {} ",result);
+    @AfterReturning(returning = "result", pointcut = "log()")
+    public void doAfterReturn(Object result) {
+        logger.info("Result: {} ", result);
     }
 
 
-    private class RequestLog{
+    private class RequestLog {
 
         //Request的url
         private String url;
