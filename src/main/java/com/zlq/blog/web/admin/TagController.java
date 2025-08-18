@@ -42,6 +42,7 @@ public class TagController {
 
     @GetMapping("/input")
     public String input() {
+
         return "admin/tags-input";
     }
 
