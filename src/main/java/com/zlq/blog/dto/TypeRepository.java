@@ -15,5 +15,7 @@ public interface TypeRepository extends JpaRepository<Type,Long> {
 
     Page<Type> findAllByUserId(Pageable pageable, Long userId);
 
+    List<Type> findAllByUserId(Long userId);
+
 
 }

@@ -34,7 +34,7 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+    public String list(@PageableDefault(size = 5, sort = {"id"}, direction = Sort.Direction.DESC)
                                Pageable pageable, Model model) {
         model.addAttribute("page", tagService.listTag(pageable));
         return "admin/tags";

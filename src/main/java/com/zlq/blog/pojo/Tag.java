@@ -16,13 +16,16 @@ public class Tag {
     @GeneratedValue
     private Long id;
 
+    private Long userId;
+
     private String name;
 
     @ManyToMany(mappedBy = "tagList")
     private List<Blog> blogList = new ArrayList<>();
 
-    public Tag(Long id, String name) {
+    public Tag(Long id, Long userId, String name) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
     }
 
@@ -59,5 +62,13 @@ public class Tag {
 
     public void setBlogList(List<Blog> blogList) {
         this.blogList = blogList;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

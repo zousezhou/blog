@@ -5,6 +5,7 @@ import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.exception.NotFoundException;
 import com.zlq.blog.pojo.Tag;
 import com.zlq.blog.service.TagService;
+import com.zlq.blog.web.admin.LoginController;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class TagServiceImp implements TagService {
 
     @Override
     public Tag saveTag(Tag tag) {
-        Tag t = tagRepository.findByName(tag.getName());
+        Tag t = tagRepository.findByNameAndUserId(tag.getName(), LoginController.userId);
         if (t != null && t.getId() != tag.getId()) {
             throw new IllegalOperationException("该标签已存在，不能重复添加！");
         }
@@ -43,7 +44,7 @@ public class TagServiceImp implements TagService {
         tagRepository.deleteById(id);
     }
 
-    @Transactional
+    /*@Transactional
     @Override
     public Tag updateTag(Long id, Tag tag) {
         Tag t = tagRepository.getOne(id);
@@ -52,7 +53,7 @@ public class TagServiceImp implements TagService {
         }
         BeanUtils.copyProperties(tag, t);
         return tagRepository.save(t);
-    }
+    }*/
 
     @Override
     public Tag getTag(Long id) {
@@ -61,12 +62,12 @@ public class TagServiceImp implements TagService {
 
     @Override
     public Page<Tag> listTag(Pageable pageable) {
-        return tagRepository.findAll(pageable);
+        return (Page<Tag>) tagRepository.findAllByUserId(pageable,LoginController.userId);
     }
 
     @Override
     public List<Tag> listTag() {
-        return tagRepository.findAll();
+        return (List<Tag>) tagRepository.findAllByUserId(LoginController.userId);
     }
 
 

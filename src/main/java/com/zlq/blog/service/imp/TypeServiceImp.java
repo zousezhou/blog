@@ -70,13 +70,12 @@ public class TypeServiceImp implements TypeService {
     @Transactional
     @Override
     public Page<Type> listType(Pageable pageable) {
-        Long userId = LoginController.userId;
-        return typeRepository.findAllByUserId(pageable,userId);
+        return typeRepository.findAllByUserId(pageable,LoginController.userId);
     }
 
     @Override
     public List<Type> listType() {
-        return typeRepository.findAll();
+        return typeRepository.findAllByUserId(LoginController.userId);
     }
 
 
