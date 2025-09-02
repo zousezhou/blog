@@ -2,10 +2,9 @@ package com.zlq.blog.service.imp;
 
 import com.zlq.blog.dto.TypeRepository;
 import com.zlq.blog.exception.IllegalOperationException;
-import com.zlq.blog.exception.NotFoundException;
 import com.zlq.blog.pojo.Type;
 import com.zlq.blog.service.TypeService;
-import org.springframework.beans.BeanUtils;
+import com.zlq.blog.web.admin.LoginController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -31,8 +30,8 @@ public class TypeServiceImp implements TypeService {
     @Override
     public Type saveType(Type type) {//type更新和新增的  service
         Type t = null;
-
-        t = typeRepository.findByName(type.getName());
+        type.setUserId(LoginController.userId);
+        t = typeRepository.findByNameAndUserId(type.getName(),LoginController.userId);
 
         if (t != null && t.getId() != type.getId()) {
             throw new IllegalOperationException("该分类已存在，不能重复添加！");
@@ -71,7 +70,8 @@ public class TypeServiceImp implements TypeService {
     @Transactional
     @Override
     public Page<Type> listType(Pageable pageable) {
-        return typeRepository.findAll(pageable);
+        Long userId = LoginController.userId;
+        return typeRepository.findAllByUserId(pageable,userId);
     }
 
     @Override

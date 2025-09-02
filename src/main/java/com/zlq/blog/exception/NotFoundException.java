@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 //并且返回这个状态码(如果没有aop捕获 则返回404页面)
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class NotFoundException extends RuntimeException {
-    public NotFoundException() {
-    }
+    public NotFoundException(){};
 
     public NotFoundException(String message) {
         super(message);

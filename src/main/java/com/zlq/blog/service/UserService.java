@@ -9,4 +9,8 @@ import com.zlq.blog.pojo.User;
 public interface UserService {
 
     User checkUser(String username, String password);
+
+    User checkUserByUsername(String username);
+
+    User saveUser(User user);
 }

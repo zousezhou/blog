@@ -2,6 +2,7 @@ package com.zlq.blog.web.admin;
 
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Blog;
+import com.zlq.blog.pojo.User;
 import com.zlq.blog.service.BlogService;
 import com.zlq.blog.service.TagService;
 import com.zlq.blog.service.TypeService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Create by lanqZhou on 2020.10.22
  */
@@ -26,7 +29,7 @@ public class BlogController {
 
     private final String BLOGS = "admin/blogs";
     private final String BLOGS_INPUT = "admin/blogs-input";
-    private final String REDIRECT_BLOGS = "redirect:admin/blogs";
+    private final String REDIRECT_BLOGS = "redirect:/admin/blogs";
     @Autowired
     private TagService tagService;
     @Autowired
@@ -34,12 +37,20 @@ public class BlogController {
     @Autowired
     private TypeService typeService;
 
+    /*博客list页面 查询所有博客*/
     @GetMapping
     public String list(@PageableDefault(size = 10, sort = {"id"},
-            direction = Sort.Direction.DESC) Pageable pageable, Blog blog, Model model) {
+            direction = Sort.Direction.DESC) Pageable pageable,
+                       Blog blog, Model model, HttpSession httpSession) {
+        Long userId;
+        User user = (User) httpSession.getAttribute("user");
+        if (null != user){
+            userId = user.getId();
+        }
         model.addAttribute("types", typeService.listType());
         model.addAttribute("page", blogService.listBlog(pageable, blog));
         return BLOGS;
+
     }
 
     @PostMapping("/search")

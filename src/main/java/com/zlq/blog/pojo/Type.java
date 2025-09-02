@@ -9,20 +9,22 @@ import java.util.List;
  */
 
 @Entity
-@Table(name = "t_type", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
+@Table(name = "t_type")
 public class Type {
 
     @Id
     @GeneratedValue
     private Long id;
     private String name;
+    private Long userId;
 
     @OneToMany()
     private List<Blog> blog = new ArrayList<>();
 
-    public Type(Long id, String name, List<Blog> blog) {
+    public Type(Long id, String name, Long userId, List<Blog> blog) {
         this.id = id;
         this.name = name;
+        this.userId = userId;
         this.blog = blog;
     }
 
@@ -36,6 +38,7 @@ public class Type {
         return "id=" + id +
                 ", name='" + name + '\'' +
                 ", blog=" + blog +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -62,5 +65,13 @@ public class Type {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

@@ -15,12 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.regex.Pattern;
 
 
 /**
@@ -35,7 +30,7 @@ public class TypeController {
     private TypeService typeService;
 
     @GetMapping
-    public String list(@PageableDefault(size = 10, sort = {"id"}, direction = Sort.Direction.DESC)
+    public String list(@PageableDefault(size = 3, sort = {"id"}, direction = Sort.Direction.DESC)
                                Pageable pageable, Model model) {
         model.addAttribute("page", typeService.listType(pageable));
         return "admin/types";
