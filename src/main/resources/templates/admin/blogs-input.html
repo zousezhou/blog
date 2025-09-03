@@ -230,12 +230,11 @@
  */
 
   $('.save.button').click(function (){
-    debugger;
-    $('[name="published"]').value = false;
+    $('input[name="published"]').val(false);
     $("#blog-form").submit();
   });
   $('.input.button').click(function (){
-    $('[name="published"]').value = true;
+    $('input[name="published"]').val(true);
     $("#blog-form").submit();
   });
   $('.menu.toggle').click(function(){

@@ -3,10 +3,12 @@ package com.zlq.blog.service.imp;
 import com.zlq.blog.dto.BlogRepository;
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Blog;
+import com.zlq.blog.pojo.BlogQuery;
 import com.zlq.blog.pojo.Type;
+import com.zlq.blog.pojo.User;
 import com.zlq.blog.service.BlogService;
 import com.zlq.blog.util.StringUtils;
-import org.assertj.core.internal.Predicates;
+import com.zlq.blog.web.admin.LoginController;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +36,13 @@ public class BlogServiceImp implements BlogService {
 
     @Override
     public Blog saveBlog(Blog blog) {
+        User user = new User();
+        user.setId(LoginController.userId);
+        if (null == blog.getId()){
+            blog.setCreateTime(new Date());
+            blog.setUser(user);
+        }
+        blog.setUpdateTime(new Date());
         return blogRepository.save(blog);
     }
 
@@ -47,7 +57,7 @@ public class BlogServiceImp implements BlogService {
     }
 
     @Override
-    public Page<Blog> listBlog(Pageable pageable, Blog blog) {
+    public Page<Blog> listBlog(Pageable pageable, BlogQuery blog) {
         return blogRepository.findAll(new Specification<Blog>() {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -56,12 +66,13 @@ public class BlogServiceImp implements BlogService {
                 if (StringUtils.isNotEmpty(blog.getTitle())) {
                     predicates.add(criteriaBuilder.like(root.<String>get("title"), "%" + blog.getTitle() + "%"));
                 }
-                if (blog.getType() != null) {
-                    predicates.add(criteriaBuilder.equal(root.<Type>get("type").get("id"), blog.getId()));
+                if (blog.getTypeId() != null) {
+                    predicates.add(criteriaBuilder.equal(root.<Type>get("type").get("id"), blog.getTypeId()));
                 }
-                if (blog.isRecommend()) {
-                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.isRecommend()));
+                if (null != blog && null != blog.getRecommend() && blog.getRecommend()){
+                    predicates.add(criteriaBuilder.equal(root.<Boolean>get("recommend"), blog.getRecommend()));
                 }
+                predicates.add(criteriaBuilder.equal(root.<User>get("user").get("id"), LoginController.userId));
                 criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
                 return null;
             }

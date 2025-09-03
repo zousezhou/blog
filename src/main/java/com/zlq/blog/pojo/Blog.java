@@ -22,11 +22,11 @@ public class Blog {
     private String firstPicture;
     private String flag;
     private String views;
-    private boolean appreciation;
-    private boolean shareStatement;
-    private boolean commentable;
-    private boolean published;
-    private boolean recommend;
+    private boolean appreciation;//赞赏
+    private boolean shareStatement;//分享声明
+    private boolean commentable;//注释
+    private boolean published;//发表
+    private boolean recommend;//推荐
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)

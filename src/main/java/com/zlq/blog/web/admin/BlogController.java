@@ -2,7 +2,7 @@ package com.zlq.blog.web.admin;
 
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Blog;
-import com.zlq.blog.pojo.User;
+import com.zlq.blog.pojo.BlogQuery;
 import com.zlq.blog.service.BlogService;
 import com.zlq.blog.service.TagService;
 import com.zlq.blog.service.TypeService;
@@ -37,26 +37,26 @@ public class BlogController {
     @Autowired
     private TypeService typeService;
 
+    @Autowired
+    private BlogQuery blogQuery;
+
+
     /*博客list页面 查询所有博客*/
     @GetMapping
-    public String list(@PageableDefault(size = 10, sort = {"id"},
+    public String list(@PageableDefault(size = 5, sort = {"id"},
             direction = Sort.Direction.DESC) Pageable pageable,
-                       Blog blog, Model model, HttpSession httpSession) {
-        Long userId;
-        User user = (User) httpSession.getAttribute("user");
-        if (null != user){
-            userId = user.getId();
-        }
+                       BlogQuery blogQuery, Model model) {
+
         model.addAttribute("types", typeService.listType());
-        model.addAttribute("page", blogService.listBlog(pageable, blog));
+        model.addAttribute("page", blogService.listBlog(pageable, blogQuery));
         return BLOGS;
 
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 10, sort = {"id"},
-            direction = Sort.Direction.DESC) Pageable pageable, Blog blog, Model model) {
-        model.addAttribute("page", blogService.listBlog(pageable, blog));
+    public String search(@PageableDefault(size = 5, sort = {"id"},
+            direction = Sort.Direction.DESC) Pageable pageable,BlogQuery blogQuery, Model model) {
+        model.addAttribute("page", blogService.listBlog(pageable, blogQuery));
         return "admin/blogs :: blogList";
     }
 
@@ -106,13 +106,15 @@ public class BlogController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (published) {
+        if (published) {//如果发表博客就重定向博客列表页面，不然就在博客修改页面
+            redirectAttributes.addFlashAttribute("blog",b);
             return REDIRECT_BLOGS;
         }
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.listTag());
         model.addAttribute("Blog", b);
         return BLOGS_INPUT;
+
     }
 
 }

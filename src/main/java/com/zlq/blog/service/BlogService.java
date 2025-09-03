@@ -1,7 +1,7 @@
 package com.zlq.blog.service;
 
 import com.zlq.blog.pojo.Blog;
-import com.zlq.blog.pojo.Tag;
+import com.zlq.blog.pojo.BlogQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,7 +18,7 @@ public interface BlogService {
 
     Blog getBlog(Long id);
 
-    Page<Blog> listBlog(Pageable pageable,Blog blog);
+    Page<Blog> listBlog(Pageable pageable, BlogQuery blogQuery);
 
     Blog updateBlog(Blog blog,Long id);
 

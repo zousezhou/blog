@@ -14,7 +14,7 @@ public class StringUtils {
 
 
     public static boolean isNotEmpty(String s){
-        if(!"".equals(s)||s != null){
+        if(!"".equals(s) && s != null){
             return true;
         }
         return false;
