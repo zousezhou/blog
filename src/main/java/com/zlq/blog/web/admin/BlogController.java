@@ -3,6 +3,7 @@ package com.zlq.blog.web.admin;
 import com.zlq.blog.exception.IllegalOperationException;
 import com.zlq.blog.pojo.Blog;
 import com.zlq.blog.pojo.BlogQuery;
+import com.zlq.blog.pojo.Type;
 import com.zlq.blog.service.BlogService;
 import com.zlq.blog.service.TagService;
 import com.zlq.blog.service.TypeService;
@@ -43,7 +44,7 @@ public class BlogController {
 
     /*博客list页面 查询所有博客*/
     @GetMapping
-    public String list(@PageableDefault(size = 5, sort = {"id"},
+    public String list(@PageableDefault(size = 3, sort = {"id"},
             direction = Sort.Direction.DESC) Pageable pageable,
                        BlogQuery blogQuery, Model model) {
 
@@ -54,7 +55,7 @@ public class BlogController {
     }
 
     @PostMapping("/search")
-    public String search(@PageableDefault(size = 5, sort = {"id"},
+    public String search(@PageableDefault(size = 3, sort = {"id"},
             direction = Sort.Direction.DESC) Pageable pageable,BlogQuery blogQuery, Model model) {
         model.addAttribute("page", blogService.listBlog(pageable, blogQuery));
         return "admin/blogs :: blogList";
@@ -64,6 +65,9 @@ public class BlogController {
     public String blogInput(Model model) {
         model.addAttribute("types", typeService.listType());
         model.addAttribute("tags", tagService.listTag());
+        Blog blog = new Blog();
+        blog.setType(new Type());
+        model.addAttribute("blog", blog);
         return BLOGS_INPUT;
     }
 
@@ -94,27 +98,24 @@ public class BlogController {
 
 
     @PostMapping("/save")
-    public String saveBlog(Blog blog, Model model, RedirectAttributes redirectAttributes) {
-        boolean published = blog.isPublished();
+    public String saveBlog(Blog blog, RedirectAttributes redirectAttributes) {
+
         Blog b = null;
         try {
             b = blogService.saveBlog(blog);
-        } catch (IllegalOperationException illegalOperationException) {
-            redirectAttributes.addFlashAttribute("message", illegalOperationException.getMessage());
-            redirectAttributes.addFlashAttribute("Blog", blog);
-            return REDIRECT_BLOGS;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IllegalOperationException e) {
+            redirectAttributes.addFlashAttribute("message",e.getMessage());
+            return "redirect:/admin";
         }
-        if (published) {//如果发表博客就重定向博客列表页面，不然就在博客修改页面
-            redirectAttributes.addFlashAttribute("blog",b);
-            return REDIRECT_BLOGS;
-        }
-        model.addAttribute("types", typeService.listType());
-        model.addAttribute("tags", tagService.listTag());
-        model.addAttribute("Blog", b);
-        return BLOGS_INPUT;
 
+        String flashMessage = "操作成功！";
+        if (null == b){
+            flashMessage = "操作失败！";
+        }
+        redirectAttributes.addFlashAttribute("message", flashMessage);
+        return REDIRECT_BLOGS;
     }
+
+
 
 }

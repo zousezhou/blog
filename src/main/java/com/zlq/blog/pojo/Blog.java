@@ -1,5 +1,7 @@
 package com.zlq.blog.pojo;
 
+import com.zlq.blog.util.StringUtils;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +20,10 @@ public class Blog {
     private Long id;
 
     private String title;
+
+    @Lob
     private String content;
+
     private String firstPicture;
     private String flag;
     private String views;
@@ -38,6 +43,9 @@ public class Blog {
     @ManyToMany
     private List<Tag> tagList = new ArrayList<>();
 
+    @Transient
+    private String tagIds;
+
     @ManyToOne
     private User user;
 
@@ -49,7 +57,7 @@ public class Blog {
                 boolean appreciation, boolean shareStatement,
                 boolean commentable, boolean published, boolean recommend,
                 Date createTime, Date updateTime, Type type, List<Tag> tagList,
-                User user, List<Comment> commentList) {
+                String tagIds, User user, List<Comment> commentList) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -65,6 +73,7 @@ public class Blog {
         this.updateTime = updateTime;
         this.type = type;
         this.tagList = tagList;
+        this.tagIds = tagIds;
         this.user = user;
         this.commentList = commentList;
     }
@@ -232,5 +241,24 @@ public class Blog {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    public String getTagIds() {
+        String tagIds= this.tagIds;
+        if (StringUtils.isNotEmpty(tagIds)){
+            return tagIds;
+        }
+        if (null == tagList || tagList.size()<1){
+            return "";
+        }
+        tagIds = "";
+        for (int i = 0; i <tagList.size() ; i++) {
+            tagIds = tagIds+ tagList.get(i).getId() + ((i+1)<tagList.size()?",":"")  ;
+        }
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
     }
 }

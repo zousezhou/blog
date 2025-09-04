@@ -60,14 +60,17 @@
           <input  type="text" name="title" placeholder="标题" >
         </div>
         <div class="field">
-          <div class="ui selection dropdown">
-            <input name="typeId" type="hidden">
-            <i class="dropdown icon"></i>
-            <div class="default text">分类</div>
-            <div class="menu" >
-              <div class="item"  data-value="1" th:each="type:${types}"
-                   th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+          <div class="ui labeled action input">
+            <div class="ui type selection dropdown">
+              <input name="typeId" type="hidden">
+              <i class="dropdown icon"></i>
+              <div class="default text">分类</div>
+              <div class="menu" >
+                <div class="item"  data-value="1" th:each="type:${types}"
+                     th:data-value="${type.id}" th:text="${type.name}">错误日志</div>
+              </div>
             </div>
+            <button id="clear-btn"  class="ui teal basic button">clear</button>
           </div>
         </div>
 
@@ -77,6 +80,9 @@
             <label for="recommend">推荐</label>
           </div>
         </div>
+
+
+
         <div class="field">
           <button id="search-btn" type="button" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
         </div>
@@ -90,6 +96,7 @@
           <th>标题</th>
           <th>类型</th>
           <th>推荐</th>
+          <th>发布状态</th>
           <th>更新时间</th>
           <th>操作</th>
         </tr>
@@ -100,6 +107,7 @@
           <td data-label="Age" th:text="${blog.title}">可以联系是</td>
           <td data-label="Job" th:text="${blog.type.name}">认知升级</td>
           <td data-label="Job" th:text="${blog.recommend ? '是':'否'}">是</td>
+          <td data-label="Job" th:text="${blog.published ? '发布':'草稿'}">草稿</td>
           <td data-label="Job" th:text="${blog.updateTime}">2020-10-10</td>
           <td data-label="Job">
             <a href="#" th:href="@{/admin/blogs/{id}/update(id=${blog.id})}"
@@ -111,12 +119,12 @@
         </tbody>
         <tfoot>
         <tr>
-          <th colspan="6">
+          <th colspan="7">
             <div class="ui mini pagination menu" th:if="${page.totalPages>1}">
               <a class="item" th:onclick="page(this)"
-                 th:attr="data-page='@{/admin/blogs(page=${page.number}-1)}'" th:unless="${page.first}">上一页</a>
+                 th:attr="data-page=${page.number}-1" th:unless="${page.first}">上一页</a>
               <a class="item" th:onclick="page(this)"
-                 th:attr="data-page='@{/admin/blogs(page=${page.number}+1)}'" th:unless="${page.last}">下一页</a>
+                 th:attr="data-page=${page.number}+1" th:unless="${page.last}">下一页</a>
             </div>
             <a class="ui mini right floated teal basic button" th:href="@{/admin/blogs/input}">新增</a>
           </th>
@@ -171,6 +179,13 @@
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <!--/*/</th:block>/*/-->
 <script>
+  //消息提示关闭初始化
+  $('.message .close').click(function (){
+    $(this)
+            .closest('.message')
+            .transition('fade');
+  });
+
   $('.menu.toggle').click(function(){
     $('.m-tiem').toggleClass('m-mobile-hide');
   });
@@ -179,20 +194,26 @@
     on:'hover'
   });
 
+  /*分类下拉框clear点击事件*/
+  $("#clear-btn").click(function (){
+    console.log("clear------------")
+    $(".ui.type.dropdown").dropdown('clear');
+  });
+
   function page(obj){
     console.log("page-------------");
     console.log(obj);
     $('[name="page"]').val($(obj).data("page"));
     loaddata();
-  }
+  };
+
 
   $("#search-btn").click(function (){
-    console.log("search-btn-------------");
+    $('[name="page"]').val(0);
     loaddata();
   });
 
   function loaddata(){
-    console.log("loaddata-------------");
     $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
       title : $('[name = "title"]').val(),
       typeId : $('[name = "typeId"]').val(),

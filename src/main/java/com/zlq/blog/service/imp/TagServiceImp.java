@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,6 +70,16 @@ public class TagServiceImp implements TagService {
     @Override
     public List<Tag> listTag() {
         return (List<Tag>) tagRepository.findAllByUserId(LoginController.userId);
+    }
+
+    @Override
+    public List<Tag> listTagByIds(String tagIds) {
+        List<Tag> tagList = new ArrayList<>();
+        String [] ids = tagIds.split(",");
+        for (int i = 0; i < ids.length; i++) {
+            tagList.add(tagRepository.getOne(Long.parseLong(ids[i])));
+        }
+        return tagList;
     }
 
 
